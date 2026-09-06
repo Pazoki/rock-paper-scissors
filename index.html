@@ -8,7 +8,70 @@
 <body>
 
     <script>
-    console.log("Hello World!")
+    console.log("Welcome!")
+
+    /* create function to randomize from three options - rock, paper, scissors */
+    function getComputerChoice() {
+        let randomNumber = Math.floor(Math.random(3) * 3)
+        if (randomNumber === 0) {
+            return "rock";
+        } else if (randomNumber === 1) {
+            return "paper";
+        } else {
+            return "scissors";
+        }
+    }
+
+    /* create function to get players input */
+    function getHumanChoice() {
+        let choice = prompt("Pick Rock, Paper, or Scissors!");
+        return choice;
+    }
+
+    /* create two variables - one for players score and one for computers score */
+    let humanScore = 0;
+    let computerScore = 0;
+
+    /* create functionality to play a single round */
+    function playRound(humanChoice, computerChoice) {
+        lowercasedHumanChoice = humanChoice.toLowerCase();
+        console.log("3")
+        console.log("2")
+        console.log("1")
+        console.log("Computer chooses " + computerChoice)
+        console.log("Player chooses " + humanChoice)
+        if (lowercasedHumanChoice === computerChoice) {
+            console.log("DRAW!");
+        } else if ((lowercasedHumanChoice === "rock" && computerChoice === "scissors") || 
+        (lowercasedHumanChoice === "scissors" && computerChoice === "paper") ||
+        (lowercasedHumanChoice === "paper" && computerChoice === "rock")) {
+            console.log("PLAYER WINS!");
+            humanScore += 1;
+        } else {
+            console.log("COMPUTER WINS!");
+            computerScore += 1;
+        }
+        console.log("Player : " + humanScore + " | Computer : " + computerScore);
+    }
+
+    /* create loop that runs until either computer or player scores 5 points */
+    let round = 1;
+    
+    while (humanScore != 5 && computerScore != 5) {
+        console.log("Round " + round);
+        let humanSelection = getHumanChoice();
+        let computerSelection = getComputerChoice();
+        playRound(humanSelection, computerSelection);
+        round += 1;
+    }
+
+    if (humanScore === 5) {
+        console.log("Player Wins!!");
+    } else if (computerScore === 5) {
+        console.log("Computer Wins!!");
+    }
+
+
     </script>
     
 </body>
