@@ -6,6 +6,19 @@
     <title>Rock Paper Scissors</title>
 </head>
 <body>
+    <h1>Rock Paper Scissors!</h1>
+    <p id="gameState">Make selection to start a new game</p>
+    <p id="scoreKeeper">Player = 0 Computer = 0</p>
+
+    <div id="buttonContainer">
+        <button id="rock">Rock</button>
+        <button id="paper">Paper</button>
+        <button id="scissors">Scissors</button>
+    </div>
+    <p></p>
+    <div id="resetButtonContainer">
+        <button id="resetButton">Reset Game</button>
+    </div>
 
     <script>
     console.log("Welcome!")
@@ -29,6 +42,8 @@
     }
 
     /* create two variables - one for players score and one for computers score */
+    let gameInProgress = true;
+    let round = 1;
     let humanScore = 0;
     let computerScore = 0;
 
@@ -42,34 +57,73 @@
         console.log("Player chooses " + humanChoice)
         if (lowercasedHumanChoice === computerChoice) {
             console.log("DRAW!");
+            setGameState("Round: " + round + " - Round is a draw!");
         } else if ((lowercasedHumanChoice === "rock" && computerChoice === "scissors") || 
         (lowercasedHumanChoice === "scissors" && computerChoice === "paper") ||
         (lowercasedHumanChoice === "paper" && computerChoice === "rock")) {
             console.log("PLAYER WINS!");
+            setGameState("Round: " + round + " - Player wins the round!");
             humanScore += 1;
         } else {
             console.log("COMPUTER WINS!");
+            setGameState("Round: " + round + " - Computer wins the round!");
             computerScore += 1;
         }
         console.log("Player : " + humanScore + " | Computer : " + computerScore);
+        setScoreKeeper("Player : " + humanScore + " Computer : " + computerScore);
+        round += 1;
+        checkScore();
     }
+
+
+    /* create functionality to set the ui elements */
+    const gameStateBox = document.getElementById("gameState");
+
+    function setGameState(text) {
+        gameStateBox.textContent = text;
+    };
+
+    const scoreKeeperBox = document.getElementById("scoreKeeper");
+
+    function setScoreKeeper(text) {
+        scoreKeeperBox.textContent = text;
+    };
+
+
+    /* create functionality for ui buttons */
+    const buttons = document.querySelectorAll('button');
+    
+    buttons.forEach((button) => {
+        button.addEventListener("click", () => {
+            if (button.id === "resetButton") {
+                console.log("Game Reset");
+                humanScore = 0;
+                computerScore = 0;
+                round = 1;
+                setGameState("New game started!");
+                setScoreKeeper("Player = 0 Computer = 0");
+                gameInProgress = true;
+
+            } else {
+                if (gameInProgress === true) playRound(button.id, getComputerChoice());
+            }
+        })
+    })
 
     /* create loop that runs until either computer or player scores 5 points */
-    let round = 1;
+    function checkScore() {
+        if (humanScore === 5) {
+            setGameState("The player has won the game!");
+            gameInProgress = false;
+        };
+        if (computerScore === 5) {
+            setGameState("The computer has won the game!");
+            gameInProgress = false;
+        };
+    }
     
-    while (humanScore != 5 && computerScore != 5) {
-        console.log("Round " + round);
-        let humanSelection = getHumanChoice();
-        let computerSelection = getComputerChoice();
-        playRound(humanSelection, computerSelection);
-        round += 1;
-    }
 
-    if (humanScore === 5) {
-        console.log("Player Wins!!");
-    } else if (computerScore === 5) {
-        console.log("Computer Wins!!");
-    }
+
 
 
     </script>
